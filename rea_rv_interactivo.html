@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Realidad Virtual en la Educación Superior — Recurso interactivo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1f2a28;
+    --paper:#f6f4ee;
+    --card:#ffffff;
+    --teal:#1b6e63;
+    --teal-dark:#124a43;
+    --amber:#c77d19;
+    --line:#dcd6c6;
+    --muted:#5b6560;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    line-height:1.55;
+  }
+  .wrap{max-width:860px;margin:0 auto;padding:56px 24px 96px}
+  h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-0.01em;margin:0}
+  header{margin-bottom:56px}
+  .kicker{color:var(--teal);font-weight:600;font-size:0.95rem;margin-bottom:10px}
+  h1{font-size:2.5rem;line-height:1.12;color:var(--teal-dark);max-width:16ch}
+  .lede{margin-top:16px;max-width:58ch;color:var(--muted);font-size:1.08rem}
+  section{margin-top:64px}
+  h2{font-size:1.55rem;color:var(--teal-dark);margin-bottom:6px}
+  .section-note{color:var(--muted);max-width:60ch;margin-bottom:28px}
+
+  /* Fases — acordeón */
+  .fase{
+    border:1px solid var(--line);
+    border-radius:2px;
+    margin-bottom:10px;
+    background:var(--card);
+    overflow:hidden;
+  }
+  .fase-head{
+    display:flex;
+    align-items:center;
+    gap:18px;
+    padding:18px 20px;
+    cursor:pointer;
+    user-select:none;
+  }
+  .fase-num{
+    font-family:'Fraunces',serif;
+    font-size:1.3rem;
+    color:var(--amber);
+    min-width:28px;
+  }
+  .fase-title{font-weight:600;font-size:1.05rem;flex:1}
+  .fase-arrow{
+    color:var(--muted);
+    transition:transform .2s ease;
+    font-size:0.85rem;
+  }
+  .fase.open .fase-arrow{transform:rotate(90deg)}
+  .fase-body{
+    display:grid;
+    grid-template-rows:0fr;
+    transition:grid-template-rows .25s ease;
+    padding:0 20px;
+  }
+  .fase.open .fase-body{grid-template-rows:1fr}
+  .fase-body-inner{overflow:hidden}
+  .fase.open .fase-body-inner{padding-bottom:20px}
+  .fase-body p{margin:0;color:var(--ink);max-width:64ch}
+
+  /* Comparador de herramientas */
+  .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+  .filter-btn{
+    font-family:'Inter',sans-serif;
+    font-size:0.9rem;
+    padding:8px 16px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background:var(--card);
+    color:var(--ink);
+    cursor:pointer;
+  }
+  .filter-btn.active{background:var(--teal);border-color:var(--teal);color:#fff}
+  .tools-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:600px){.tools-grid{grid-template-columns:1fr}}
+  .tool-card{
+    border:1px solid var(--line);
+    background:var(--card);
+    padding:18px 20px;
+    border-radius:2px;
+    transition:opacity .15s ease, transform .15s ease;
+  }
+  .tool-card.hidden{display:none}
+  .tool-level{font-size:0.78rem;color:var(--amber);font-weight:600;margin-bottom:6px}
+  .tool-name{font-weight:600;margin-bottom:6px}
+  .tool-desc{color:var(--muted);font-size:0.94rem}
+
+  /* Autoevaluación */
+  .checklist{display:flex;flex-direction:column;gap:12px}
+  .check-item{
+    display:flex;
+    gap:14px;
+    align-items:flex-start;
+    padding:14px 16px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:2px;
+    cursor:pointer;
+  }
+  .check-item input{margin-top:3px;width:18px;height:18px;accent-color:var(--teal);flex-shrink:0}
+  .check-item span{font-size:0.98rem}
+  .check-item.done span{color:var(--muted);text-decoration:line-through}
+  .progress-wrap{margin-top:18px;display:flex;align-items:center;gap:14px}
+  .progress-track{flex:1;height:6px;background:var(--line);border-radius:999px;overflow:hidden}
+  .progress-fill{height:100%;width:0%;background:var(--teal);transition:width .3s ease}
+  .progress-label{font-size:0.88rem;color:var(--muted);white-space:nowrap}
+
+  footer{
+    margin-top:72px;
+    padding-top:24px;
+    border-top:1px solid var(--line);
+    color:var(--muted);
+    font-size:0.88rem;
+  }
+  footer a{color:var(--teal-dark)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="kicker">Recurso interactivo — complemento del REA</div>
+    <h1>Diseña tu experiencia de RV en cuatro fases</h1>
+    <p class="lede">Explora el proceso, compara opciones de herramientas según el nivel de inmersión que necesitas, y comprueba tu propio avance. Complementa la guía completa en el documento del REA.</p>
+  </header>
+
+  <section id="fases">
+    <h2>Las cuatro fases</h2>
+    <p class="section-note">Toca cada fase para ver el detalle. Sigue el orden: no conviene elegir herramienta (Fase 3) antes de definir el objetivo y la secuencia.</p>
+
+    <div class="fase" data-fase="1">
+      <div class="fase-head">
+        <span class="fase-num">01</span>
+        <span class="fase-title">Definir el objetivo y verificar si la RV aporta valor</span>
+        <span class="fase-arrow">›</span>
+      </div>
+      <div class="fase-body"><div class="fase-body-inner"><p>Redacta el objetivo en términos observables y responde: ¿esta experiencia requiere presencia, práctica segura de un riesgo, o manipulación espacial que otro medio no ofrece igual de bien? Si la respuesta es no, un video o una simulación de escritorio pueden resolverlo con menor costo.</p></div></div>
+    </div>
+
+    <div class="fase" data-fase="2">
+      <div class="fase-head">
+        <span class="fase-num">02</span>
+        <span class="fase-title">Diseñar la secuencia didáctica alrededor de la experiencia</span>
+        <span class="fase-arrow">›</span>
+      </div>
+      <div class="fase-body"><div class="fase-body-inner"><p>Enmárcala con una activación de conocimientos previos antes de la inmersión, instrucciones claras durante la experiencia, y un espacio de reflexión guiada después que conecte lo vivido con el objetivo de aprendizaje.</p></div></div>
+    </div>
+
+    <div class="fase" data-fase="3">
+      <div class="fase-head">
+        <span class="fase-num">03</span>
+        <span class="fase-title">Seleccionar la herramienta según el objetivo</span>
+        <span class="fase-arrow">›</span>
+      </div>
+      <div class="fase-body"><div class="fase-body-inner"><p>Con el objetivo y la secuencia ya definidos, elige la herramienta considerando el nivel de inmersión realmente necesario, el equipo disponible, la habilidad técnica del grupo y el presupuesto. Usa el comparador más abajo como punto de partida.</p></div></div>
+    </div>
+
+    <div class="fase" data-fase="4">
+      <div class="fase-head">
+        <span class="fase-num">04</span>
+        <span class="fase-title">Pilotar, ajustar y evaluar</span>
+        <span class="fase-arrow">›</span>
+      </div>
+      <div class="fase-body"><div class="fase-body-inner"><p>Prueba la experiencia con un grupo reducido antes de implementarla con el curso completo. Anticipa problemas técnicos y de comodidad, documenta los ajustes, y evalúa el aprendizaje logrado — no solo el funcionamiento técnico.</p></div></div>
+    </div>
+  </section>
+
+  <section id="herramientas">
+    <h2>Comparador de niveles de inmersión</h2>
+    <p class="section-note">Filtra por nivel para ver qué tipo de herramienta encaja con tu contexto. Categorías, no marcas — la elección específica depende de tu institución.</p>
+
+    <div class="filters">
+      <button class="filter-btn active" data-filter="todas">Todas</button>
+      <button class="filter-btn" data-filter="no-inmersiva">No inmersiva</button>
+      <button class="filter-btn" data-filter="semi-inmersiva">Semi-inmersiva</button>
+      <button class="filter-btn" data-filter="inmersiva">Totalmente inmersiva</button>
+    </div>
+
+    <div class="tools-grid">
+      <div class="tool-card" data-level="no-inmersiva">
+        <div class="tool-level">No inmersiva</div>
+        <div class="tool-name">Aplicaciones web de escenas 3D navegables</div>
+        <div class="tool-desc">Se usan desde cualquier computadora, sin gafas. Ideal como primer acercamiento sin inversión en equipo.</div>
+      </div>
+      <div class="tool-card" data-level="no-inmersiva">
+        <div class="tool-level">No inmersiva</div>
+        <div class="tool-name">Modelos 3D manipulables en pantalla</div>
+        <div class="tool-desc">Permiten rotar, ampliar y explorar objetos complejos con mouse o pantalla táctil.</div>
+      </div>
+      <div class="tool-card" data-level="semi-inmersiva">
+        <div class="tool-level">Semi-inmersiva</div>
+        <div class="tool-name">Salas con proyección y sensores</div>
+        <div class="tool-desc">Combinan espacio físico y contenido virtual; favorecen el trabajo colaborativo en grupo.</div>
+      </div>
+      <div class="tool-card" data-level="semi-inmersiva">
+        <div class="tool-level">Semi-inmersiva</div>
+        <div class="tool-name">Dispositivos con seguimiento parcial</div>
+        <div class="tool-desc">Ofrecen mayor inmersión que el escritorio sin requerir un visor individual por estudiante.</div>
+      </div>
+      <div class="tool-card" data-level="inmersiva">
+        <div class="tool-level">Totalmente inmersiva</div>
+        <div class="tool-name">Visores de casco (HMD) independientes</div>
+        <div class="tool-desc">Máxima sensación de presencia; requieren mayor inversión, soporte técnico y gestión de bienestar físico.</div>
+      </div>
+      <div class="tool-card" data-level="inmersiva">
+        <div class="tool-level">Totalmente inmersiva</div>
+        <div class="tool-name">Entornos multiusuario inmersivos</div>
+        <div class="tool-desc">Permiten que varios estudiantes compartan el mismo espacio virtual con sus propios visores.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="autoeval">
+    <h2>Autoevaluación rápida</h2>
+    <p class="section-note">Marca cada resultado de aprendizaje del REA a medida que lo completes.</p>
+
+    <div class="checklist">
+      <label class="check-item"><input type="checkbox"><span>Distingo los tres niveles de inmersión y puedo clasificar al menos 3 herramientas según su nivel.</span></label>
+      <label class="check-item"><input type="checkbox"><span>Redacté el diseño de una experiencia de RV para mi asignatura usando las cuatro fases.</span></label>
+      <label class="check-item"><input type="checkbox"><span>Elegí una herramienta para un caso dado y justifiqué la elección con al menos dos criterios.</span></label>
+      <label class="check-item"><input type="checkbox"><span>Enumeré tres riesgos del uso de RV en el aula y una medida de mitigación para cada uno.</span></label>
+    </div>
+
+    <div class="progress-wrap">
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="progress-label" id="progressLabel">0 de 4 completado</div>
+    </div>
+  </section>
+
+  <footer>
+    Complemento interactivo de <em>Realidad Virtual en la Educación Superior: Guía Práctica para Docentes</em>.
+    Verónica Cabrera Rojas, Universidad del Sagrado Corazón. Licencia
+    <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.es" target="_blank" rel="noopener">CC BY-SA 4.0</a>.
+  </footer>
+
+</div>
+
+<script>
+  // Acordeón de fases
+  document.querySelectorAll('.fase-head').forEach(function(head){
+    head.addEventListener('click', function(){
+      head.parentElement.classList.toggle('open');
+    });
+  });
+
+  // Filtro de herramientas
+  var filterBtns = document.querySelectorAll('.filter-btn');
+  var toolCards = document.querySelectorAll('.tool-card');
+  filterBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      filterBtns.forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      var filter = btn.getAttribute('data-filter');
+      toolCards.forEach(function(card){
+        if(filter === 'todas' || card.getAttribute('data-level') === filter){
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    });
+  });
+
+  // Autoevaluación
+  var checks = document.querySelectorAll('.check-item input');
+  var progressFill = document.getElementById('progressFill');
+  var progressLabel = document.getElementById('progressLabel');
+  function updateProgress(){
+    var total = checks.length;
+    var done = 0;
+    checks.forEach(function(c){
+      var item = c.closest('.check-item');
+      if(c.checked){ done++; item.classList.add('done'); }
+      else { item.classList.remove('done'); }
+    });
+    progressFill.style.width = (done/total*100) + '%';
+    progressLabel.textContent = done + ' de ' + total + ' completado';
+  }
+  checks.forEach(function(c){ c.addEventListener('change', updateProgress); });
+</script>
+
+</body>
+</html>
